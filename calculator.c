@@ -1,62 +1,78 @@
+/***************************************************
+ * Nr:	   	       2
+ * Programname:	  pocket-calculator
+ * Author:	     	Nathalie Herzog
+ * Class:	      	2AHIF
+ * Date:		      9.10.
+ * -------------------------------------------------
+ * What's it about:
+ * Basic Calculator
+ * *************************************************
+*/
+
 #include <stdio.h>
 #include <float.h>
 
-void Operands(double* num1, double* num2);
-void Add(double num1, double num2, double* result);
-void Subtract(double num1, double num2, double* result);
-void Multiply(double num1, double num2, double* result);
-void Division(double num1, double num2, double* result);
+void operands(double* num1, double* num2);
+void add(double num1, double num2, double result);
+void subtract(double num1, double num2, double result);
+void multiply(double num1, double num2, double result);
+void division(double num1, double num2, double result);
 
-int Main(int* choice)
+int main(int* choice)
  {
-  printf("Choose one of the following operations:" );
-  printf("Add ............. 1" );
-  printf("Subtract ........ 2" );
-  printf("Multiply ........ 3" );
-  printf("Divide .......... 4" );
-  printf("Stop Porgram ... -1" );
+  printf("Choose one of the following operations:\n" );
+  printf("Add ............. 1\n" );
+  printf("Subtract ........ 2\n" );
+  printf("Multiply ........ 3\n" );
+  printf("Divide .......... 4\n" );
+  printf("Stop Porgram ... -1\n" );
   printf("Enter your choice: ");
-  scanf("%d", &choice );
+  scanf("%d", choice );
 
-  while(choice < -1 || choice == 0 || choice > 4)
+  while(*choice < -1 || *choice == 0 || *choice > 4)
   {
     printf("Input not allowed, please try again");
     printf("Enter your choice: ");
-    scanf("%d", &choice );
+    scanf("%d", choice );
   }
 }
 
-void Operands(double* num1, double* num2)
+void operands(double* num1, double* num2)
 {
   printf("Please enter the first operand: ");
-  scanf("%lf", &num1 );
+  scanf("%lf",num1);
   printf("Please enter the second operand: ");
-  scanf("%lf", &num2 );
+  scanf("%lf",num2);
 }
 
-void Switch(double* num1, double* num2, int* choice)
+void run(double num1, double num2, int choice, double result)
 {
-  switch(*choice)
+  switch(choice)
   {
+    case -1:
+        break;
+
     case 1:
-      Add(&num1, &num2);
+      add(num1, num2, result);
       break;
 
     case 2:
-      Subtract(&num1, &num2);
+      subtract(num1, num2, result);
       break;
 
     case 3:
-      Multiply(&num1, &num2);
+      multiply(num1, num2, result);
       break;
 
     case 4:
-      Division(&num1, &num2);
+      divide(num1, num2, result);
       break;
   }
+
 }
 
-void Add(double num1, double num2, double* result)
+void add(double num1, double num2, double result)
 {
     if((num1 > 0) && (num2 > 0) && ((DBL_MAX - num1) < num2))
     {
@@ -66,26 +82,64 @@ void Add(double num1, double num2, double* result)
     {
       printf("Number underflow\n");
     }
-    *result = x + y;
+    else
+    {
+    result = num1 + num2;
+    printf("Result: %lf",result);
+    }
 }
 
-void Subtract(double num1, double num2, double* result)
+void subtract(double num1, double num2, double result)
 {
-  *result = x - y;
+  if((num1 > 0) && (num2 > 0) && ((DBL_MAX - num1) < num2))
+  {
+    printf("Number overflow\n");
+  }
+  else if((num1 < 0) && (num2 < 0) && ((DBL_MIN - num1) > num2))
+  {
+    printf("Number underflow\n");
+  }
+  else
+  {
+  result = num1 - num2;
+  printf("Result: %lf",result);
+  }
 }
 
-void Multiply(double num1, double num2, double* result)
+void multiply(double num1, double num2, double result)
 {
-  *result = x * y;
+  if((num1 > 0) && (num2 > 0) && ((DBL_MAX - num1) < num2))
+  {
+    printf("Number overflow\n");
+  }
+  else if((num1 < 0) && (num2 < 0) && ((DBL_MIN - num1) > num2))
+  {
+    printf("Number underflow\n");
+  }
+  else
+  {
+  result = num1 * num2;
+  printf("Result: %lf",result);
+  }
 }
 
-void Divide(double num1, double num2, double* result)
+void divide(double num1, double num2, double result)
 {
-  if(x == 0 || y == 0)
+  if((num1 > 0) && (num2 > 0) && ((DBL_MAX - num1) < num2))
+  {
+    printf("Number overflow\n");
+  }
+  else if((num1 < 0) && (num2 < 0) && ((DBL_MIN - num1) > num2))
+  {
+    printf("Number underflow\n");
+  }
+  else if(num1 == 0 || num2 == 0)
   {
     printf("Division by Zero");
   }
-  *result = x / y;
-
-  printf("Result: %lf",result)
+  else
+  {
+  result = num1 / num2;
+  printf("Result: %lf",result);
+}
 }
